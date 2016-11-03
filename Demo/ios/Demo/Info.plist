@@ -42,14 +42,14 @@
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
-		<key>NSExceptionDomains</key>
-		<dict>
-			<key>localhost</key>
-			<dict>
-				<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
-				<true/>
-			</dict>
-		</dict>
 	</dict>
+  <key>NSPhotoLibraryUsageDescription</key>
+  <string></string>
+  <key>NSCameraUsageDescription</key>
+  <string></string>
+  <key>NSContactsUsageDescription</key>
+  <string></string>
+  <key>NSMicrophoneUsageDescription</key>
+  <string></string>
 </dict>
 </plist>

@@ -6,20 +6,62 @@ import {
   View,
   Dimensions,
   ScrollView,
-  Modal
+  Modal,
+  Image,
+  TouchableOpacity,
+  Platform,
 } from 'react-native';
 
 import Gallery from 'react-native-gallery';
+import ImagePicker from 'react-native-image-picker';
 
 export default class App extends Component {
 
   constructor(props) {
     super(props);
 
+    this._dismissModal = this._dismissModal.bind(this);
     this.state = {
       showCommentBox: true,
-      page: 0
-    }
+      page: 0,
+      modalVisible: false,
+      images: [],
+    };
+  }
+
+  _selectPhoto() {
+    var options = {
+      storageOptions: {
+        skipBackup: true,
+        path: 'images'
+      }
+    };
+    ImagePicker.showImagePicker(options, (response) => {
+      console.log('Response = ', response);
+
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      }
+      else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      }
+      else {
+        // You can display the image using either data...
+        const source = {uri: 'data:image/jpeg;base64,' + response.data, isStatic: true};
+
+        // or a reference to the platform specific asset location
+        if (Platform.OS === 'ios') {
+          const source = {uri: response.uri.replace('file://', ''), isStatic: true};
+        } else {
+          const source = {uri: response.uri, isStatic: true};
+        }
+
+        this.setState({
+          images: [source],
+          modalVisible: true,
+        })
+      }
+    });
   }
 
   render() {
@@ -35,28 +77,34 @@ export default class App extends Component {
     }
 
     return (
-
       <View style={{flex: 1}}>
-
-        <View style={{flex: 1, backgroundColor: 'red'}}/>
+        <View style={{flex: 1, backgroundColor: 'red', alignItems: 'center', justifyContent: 'center'}}>
+          <TouchableOpacity
+            onPress={this._selectPhoto.bind(this)}
+            activeOpacity={0.8} >
+            <Image
+              style={{width: 100, height: 100, backgroundColor: 'yellow'}}
+              source={(this.state.images.length > 0
+                ? this.state.images[0]
+                : {uri: 'http://pic.baike.soso.com/p/20131221/20131221035449-635662948.jpg'})}
+            />
+          </TouchableOpacity>
+        </View>
         <View style={{flex: 1, backgroundColor: 'blue'}}/>
         <View style={{flex: 1, backgroundColor: 'green'}}/>
 
         <Modal
           transparent={true}
-          visible={true} >
+          visible={this.state.modalVisible}>
           <View style={{flex: 1}}>
             <Gallery
               style={{flex: 1, backgroundColor: 'transparent'}}
-              initialPage={1}
+              initialPage={0}
               pageMargin={10}
-              images={[
-          'http://p10.qhimg.com/t019e9cf51692f735be.jpg',
-          'http://ww2.sinaimg.cn/mw690/714a59a7tw1dxqkkg0cwlj.jpg',
-          'http://www.bz55.com/uploads/allimg/150122/139-150122145421.jpg'
-        ]}
+              images={this.state.images}
               onSingleTapConfirmed={() => {
-          this.toggleCommentBox();
+          // this.toggleCommentBox();
+          this._dismissModal();
         }}
               onGalleryStateChanged={(idle) => {
           if(!idle) {
@@ -67,13 +115,10 @@ export default class App extends Component {
            this.setState({page});
         }}
             />
-
             {commentBox}
           </View>
         </Modal>
       </View>
-
-
     );
   }
 
@@ -95,5 +140,11 @@ export default class App extends Component {
         showCommentBox: false
       });
     }
+  }
+
+  _dismissModal() {
+    this.setState({
+      modalVisible: false
+    });
   }
 }
