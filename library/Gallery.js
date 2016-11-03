@@ -7,7 +7,6 @@ import Image from 'react-native-transformable-image';
 import ViewPager from '@ldn0x7dc/react-native-view-pager';
 import {createResponder} from 'react-native-gesture-responder';
 
-
 export default class Gallery extends Component {
 
   static propTypes = {
@@ -220,6 +219,10 @@ export default class Gallery extends Component {
 
   renderPage(pageData, pageId, layout) {
     const { onViewTransformed, onTransformGestureReleased, ...other } = this.props;
+    let shouldLoad = (pageId == this.currentPage ||
+    pageId == this.currentPage - 1 ||
+    pageId == this.currentPage + 1);
+
     return (
       <Image
         {...other}
@@ -234,7 +237,7 @@ export default class Gallery extends Component {
         }).bind(this)}
         key={'innerImage#' + pageId}
         style={{width: layout.width, height: layout.height}}
-        source={{uri: pageData}}/>
+        source={shouldLoad ? pageData : null}/>
     );
   }
 

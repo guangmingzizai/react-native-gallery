@@ -24,8 +24,19 @@ export default class App extends Component {
     this.state = {
       showCommentBox: true,
       page: 0,
-      modalVisible: false,
-      images: [],
+      modalVisible: true,
+      images: [
+        {uri: 'http://upload.wikimedia.org/wikipedia/commons/b/bd/Cat_Sitting_On_Himself.jpg'},
+        {uri: 'http://www.thecatsbreeds.net/gallery/burmilla-cat/burmilla_cat_1.jpg'},
+        {uri: 'http://wallpaperlepi.com/wp-content/uploads/2014/08/Cat-Cute-Animal-Photos-Wallpaper.jpg'},
+        {uri: 'https://www.petfinder.com/wp-content/uploads/2012/11/138190243-cat-massage-632x475.jpg'},
+        {uri: 'http://www.zastavki.com/pictures/originals/2013/Animals___Cats_Small_cat_calls_mom_046864_.jpg'},
+        {uri: 'http://upload.wikimedia.org/wikipedia/commons/b/bd/Cat_Sitting_On_Himself.jpg'},
+        {uri: 'http://www.thecatsbreeds.net/gallery/burmilla-cat/burmilla_cat_1.jpg'},
+        {uri: 'http://wallpaperlepi.com/wp-content/uploads/2014/08/Cat-Cute-Animal-Photos-Wallpaper.jpg'},
+        {uri: 'https://www.petfinder.com/wp-content/uploads/2012/11/138190243-cat-massage-632x475.jpg'},
+        {uri: 'http://www.zastavki.com/pictures/originals/2013/Animals___Cats_Small_cat_calls_mom_046864_.jpg'},
+      ],
     };
   }
 
@@ -103,8 +114,8 @@ export default class App extends Component {
               pageMargin={10}
               images={this.state.images}
               onSingleTapConfirmed={() => {
-          // this.toggleCommentBox();
-          this._dismissModal();
+          this.toggleCommentBox();
+          // this._dismissModal();
         }}
               onGalleryStateChanged={(idle) => {
           if(!idle) {
