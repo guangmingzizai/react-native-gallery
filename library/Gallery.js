@@ -4,7 +4,7 @@ import {
 } from 'react-native';
 
 import Image from 'react-native-transformable-image';
-import ViewPager from '@ldn0x7dc/react-native-view-pager';
+import FlatListViewPager from 'react-native-view-pager';
 import {createResponder} from 'react-native-gesture-responder';
 
 export default class Gallery extends Component {
@@ -187,7 +187,7 @@ export default class Gallery extends Component {
     }
 
     return (
-      <ViewPager
+      <FlatListViewPager
         {...this.props}
         ref='galleryViewPager'
         scrollEnabled={false}
