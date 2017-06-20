@@ -233,7 +233,7 @@ export default class Gallery extends Component {
            onTransformGestureReleased && onTransformGestureReleased(transform, pageId);
         }).bind(this)}
         ref={((ref) => {
-           this.imageRefs.set(pageId, ref);
+           this.imageRefs.set(pageId + '', ref);
         }).bind(this)}
         key={'innerImage#' + pageId}
         style={{width: layout.width, height: layout.height}}
